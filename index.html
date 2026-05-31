@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Островок тишины</title>
+    <link rel="icon" href="images/favicon.png" type="image/png">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <section id="home" class="screen active">
+        <div class="bg-image" style="background-image: url('images/bg-main.jpg')"></div>
+        <div class="overlay"></div>
+        <div class="content">
+            <h1>Островок тишины</h1>
+            <p class="subtitle">Место, где можно просто быть</p>
+            <div id="memory-preview" class="memory-preview"></div>
+            <button class="btn" onclick="showScreen('wall')">Войти в убежище</button>
+        </div>
+    </section>
+
+    <section id="wall" class="screen">
+        <h2>Слова, которые иногда нужно услышать</h2>
+        <div class="phrase-box">
+            <p id="phrase-text">Нажми на кнопку, чтобы увидеть послание</p>
+        </div>
+        <button class="btn" onclick="newPhrase()">Ещё?</button>
+        <div class="nav-buttons">
+            <button class="btn-small" onclick="showScreen('silence')">Комната с музычкой</button>
+            <button class="btn-small" onclick="showScreen('diary')">Дневник</button>
+            <button class="btn-small" onclick="showScreen('cats')">Котики и фото</button>
+            <button class="btn-small" onclick="showScreen('game')">Поймай звезду</button>
+        </div>
+    </section>
+
+    <section id="silence" class="screen">
+        <div class="bg-image" style="background-image: url('images/stars.gif')"></div>
+        <div class="overlay"></div>
+        <div class="content">
+            <h2>Комната с музычкой</h2>
+            <p>Просто побудь здесь</p>
+            <audio id="silence-music" loop>
+                <source src="images/calm.mp3" type="audio/mpeg">
+            </audio>
+            <div class="volume-control">
+                <label for="volume-slider">🔊</label>
+                <input type="range" id="volume-slider" min="0" max="100" value="50" oninput="changeVolume(this.value)">
+            </div>
+            <button class="btn-small" onclick="showScreen('wall')">Назад</button>
+        </div>
+    </section>
+
+    <section id="diary" class="screen">
+        <h2>Твой личный дневник</h2>
+        <p class="privacy-notice">🔒 Это твоё личное пространство. Никто, кроме тебя, не видит эти записи. Они хранятся только в твоём браузере. Если сменишь браузер или устройство — записи не перенесутся.</p>
+        <textarea id="diary-input" placeholder="Пиши всё, что хочется..."></textarea>
+        <div class="diary-buttons">
+            <button class="btn" onclick="saveDiary()">Сохранить</button>
+            <button class="btn-small" onclick="burnDiary()">Сжечь</button>
+        </div>
+        <div id="diary-entries"></div>
+        <button class="btn-small" onclick="showScreen('wall')">Назад</button>
+    </section>
+
+    <section id="cats" class="screen">
+        <h2>Котики 🐱</h2>
+        <div class="cat-container">
+            <img id="cat-image" src="images/1.jpg" alt="Котик">
+        </div>
+        <button class="btn" onclick="newCat()">Другой котик</button>
+
+        <hr class="divider">
+
+        <h2>Твои фотографии</h2>
+        <p class="privacy-notice">🔒 Эти фотографии видишь только ты. Они хранятся в твоём браузере. Никто другой, открыв этот сайт, их не увидит.</p>
+        <div id="user-photos" class="user-photos"></div>
+        <div class="photo-buttons">
+            <button class="btn-small" onclick="document.getElementById('photo-upload').click()">Добавить своё фото</button>
+            <button class="btn-small" id="delete-mode-btn" onclick="toggleDeleteMode()">🗑️ Удалить фото</button>
+        </div>
+        <input type="file" id="photo-upload" accept="image/*" style="display:none" onchange="uploadPhoto(event)">
+
+        <p class="privacy-notice" style="margin-top:20px">💡 Совет: если хочешь сохранить фотографии и записи надолго, старайся заходить с одного и того же браузера.</p>
+        <button class="btn-small" style="margin-top:10px" onclick="showScreen('wall')">Назад</button>
+    </section>
+
+    <section id="game" class="screen">
+        <h2>Поймай звезду ⭐</h2>
+        <div id="game-menu">
+            <button class="btn" onclick="startGameMode('free')">Свободный режим</button>
+            <button class="btn" onclick="startGameMode('timed')">На время (30 сек)</button>
+            <button class="btn" onclick="startGameMode('endless')">Бесконечный (ускорение)</button>
+            <p id="best-score">🏆 Лучший счёт — Свободный: 0 | На время: 0 | Бесконечный: 0</p>
+        </div>
+        <div id="game-area" style="display:none"></div>
+        <button class="btn-small" onclick="stopGameAndBack()">Назад</button>
+    </section>
+
+    <!-- Полноэкранный просмотр фото -->
+    <div id="photo-viewer" class="photo-viewer" onclick="closePhotoViewer()">
+        <span class="close-viewer">✕</span>
+        <img id="photo-viewer-img" src="" alt="Фото">
+    </div>
+
+    <button id="panic-btn" onclick="togglePanic()">🆘</button>
+    <div id="panic-overlay">
+        <div class="panic-content">
+            <p>Просто отвлекись на минутку</p>
+            <div class="breathing-circle"></div>
+            <p class="panic-timer" id="panic-timer">60</p>
+            <button class="btn-small" onclick="togglePanic()">Выйти</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
